@@ -1,0 +1,83 @@
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #080d1b;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.app {
+  max-width: 850px;
+  margin: auto;
+  padding: 35px 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 42px;
+  letter-spacing: 8px;
+  color: #60a5fa;
+}
+
+.orb {
+  margin: 55px auto 25px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle, #2563eb, #111827);
+  box-shadow: 0 0 45px #2563eb;
+}
+
+.orb button {
+  font-size: 48px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.chat {
+  margin: 35px auto;
+  text-align: left;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.user, .assistant {
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 12px;
+  background: #17233a;
+}
+
+.assistant {
+  border-left: 3px solid #60a5fa;
+}
+
+form {
+  display: flex;
+  gap: 10px;
+}
+
+input {
+  flex: 1;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #334155;
+  background: #17233a;
+  color: white;
+}
+
+form button {
+  padding: 12px 22px;
+  border: none;
+  border-radius: 10px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
