@@ -15,7 +15,6 @@ logger = logging.getLogger("aura")
 
 app = FastAPI(title="AURA AI Assistant")
 
-# FIX: allow both hostnames Vite can be opened on
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
@@ -41,8 +40,6 @@ _client = None
 
 
 def get_client() -> OpenAI:
-    # FIX: created lazily so the server still starts (and /  works) with an
-    # empty .env, and the error is reported clearly when /chat is called.
     global _client
     if _client is None:
         env = require_env("FOUNDRY_API_KEY", "FOUNDRY_OPENAI_ENDPOINT")
@@ -63,8 +60,6 @@ def speech_token():
     env = require_env("SPEECH_KEY", "SPEECH_REGION")
     region = env["SPEECH_REGION"]
 
-    # FIX: network errors used to raise an unhandled exception -> bare 500
-    # (no CORS header, so the browser showed a misleading CORS error).
     try:
         response = requests.post(
             f"https://{region}.api.cognitive.microsoft.com/sts/v1.0/issueToken",
@@ -84,8 +79,6 @@ def speech_token():
     return {"token": response.text, "region": region}
 
 
-# FIX: history was an untyped `list`, so any junk (or a bad role) went straight
-# to the model API and came back as a confusing 500.
 class HistoryItem(BaseModel):
     role: Literal["user", "assistant"]
     content: str
@@ -117,8 +110,6 @@ def chat(data: ChatRequest):
         response = get_client().chat.completions.create(
             model=env["FOUNDRY_MODEL_DEPLOYMENT"],
             messages=messages,
-            # FIX: newer Foundry/Azure models (gpt-5, o-series) reject
-            # `max_tokens` and a non-default `temperature` with a 400.
             max_completion_tokens=500,
         )
     except HTTPException:
